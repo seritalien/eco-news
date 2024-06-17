@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Economic Events</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>US Economic Events</h1>
+    <table id="eventsTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Event</th>
+                <th>Time (New York)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        fetch('us_economic_events.csv')
+            .then(response => response.text())
+            .then(data => {
+                const rows = data.split('\n').slice(1);
+                const tableBody = document.getElementById('eventsTable').getElementsByTagName('tbody')[0];
+                rows.forEach(row => {
+                    const cells = row.split(',');
+                    if (cells.length > 1) {
+                        const newRow = tableBody.insertRow();
+                        cells.forEach(cell => {
+                            const newCell = newRow.insertCell();
+                            newCell.textContent = cell;
+                        });
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
